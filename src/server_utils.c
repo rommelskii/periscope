@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 #include <arpa/inet.h>
 #include <sys/socket.h>
@@ -48,10 +49,10 @@ void start_server(char* buf, size_t bufsize, const int PORT)
     }
 
     buf[bytes_received] = '\0';
-    printf("Received: %s\n", buf);
-
     // START LOGGING LOGIC
     // perform_log(buf)
+    //
+    char *MSG = "hello"; // this is temporary
        
     int bytes_sent = sendto(sockfd, MSG, strlen(MSG), 0, (struct sockaddr*)&cli, addrlen);
     if (bytes_sent < 0)
