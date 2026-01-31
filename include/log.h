@@ -10,6 +10,7 @@
  * Constants
  ****************************************/
 #define MACADDRLEN 6
+#define MAXMSGLEN 2048
 
 
 /****************************************
@@ -27,7 +28,7 @@ typedef struct
   uint32_t    src_ip;
   uint8_t     src_mac[MACADDRLEN];
   log_type_t  type; 
-  char*       content;
+  char        content[MAXMSGLEN];
 } log_t;
 
 /****************************************
@@ -49,7 +50,7 @@ void print_log (const log_t* plog);
   *
   * @return 0 if success. -1 if failure
   */
-int serialize_log(log_t* plog, uint8_t buf, size_t maxsize);
+int serialize_log(log_t* plog, uint8_t* buf, size_t maxsize);
 
 /**
   * @brief Unpacks a byte stream to a log type
@@ -58,6 +59,6 @@ int serialize_log(log_t* plog, uint8_t buf, size_t maxsize);
   *
   * @return 0 if success. -1 if failure
   */
-int deserialize_log(log_t* plog, uint8_t buf);
+int deserialize_log(log_t* plog, uint8_t* buf);
 
 #endif //LOG_H_
