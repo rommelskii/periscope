@@ -36,3 +36,25 @@ void print_log (const log_t* plog)
   printf("\n");
   return;
 }
+
+log_t create_log(uint32_t src_ip, uint8_t* src_mac, log_type_t type, char* content)
+{
+  if (src_ip == htonl(INADDR_NONE)) 
+  {
+    printf("Log warning: src ip is possibly incorrect\n");
+  }
+  if ( strnlen(content, MAXMSGLEN) == 0 ) 
+  {
+    printf("Log warning: empty content payload received\n");
+  }
+
+  log_t log = {0};
+
+  log.magic_number = htonl(MAGIC_NUMBER);
+  log.src_ip = src_ip;
+  log.type = type;
+  memcpy(log.src_mac, src_mac, sizeof(log.src_mac));
+  memcpy(log.content, content, strlen(content)+1);
+
+  return log;
+}
