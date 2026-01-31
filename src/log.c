@@ -53,7 +53,7 @@ log_t create_log(uint32_t src_ip, uint8_t* src_mac, log_type_t type, char* conte
   log.magic_number = htonl(MAGIC_NUMBER);
   log.src_ip = src_ip;
   log.type = type;
-  memcpy(log.src_mac, src_mac, sizeof(log.src_mac));
+  memcpy(log.src_mac, src_mac, MACADDRLEN);
   memcpy(log.content, content, strlen(content)+1);
 
   return log;
