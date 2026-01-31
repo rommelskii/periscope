@@ -6,6 +6,9 @@ build/
 build*/
 out/
 
+# Ignore executables 
+bin/
+
 # If someone runs cmake in the root (try to avoid this!)
 CMakeCache.txt
 CMakeFiles/
