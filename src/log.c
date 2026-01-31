@@ -3,11 +3,6 @@
 
 #include "log.h"
 
-void initialize_log (log_t* plog) 
-{
-  return;
-}
-
 void print_log (const log_t* plog) 
 {
   return;

@@ -35,12 +35,6 @@ typedef struct
  ****************************************/
 
 /**
-  * @brief Initializes a log
-  * @param plog Pointer to uninitialized log variable
-  */
-void initialize_log (log_t* plog);
-
-/**
   * @brief Prints a log to stdout
   * @param plog Pointer to log to be printed
   */
