@@ -1,0 +1,42 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+
+#include "log.h"
+#include "log_serialize.h"
+#include "server_utils.h"
+
+int main(void)
+{
+  const int PSC_PORT = 7123; //< just for testing
+  
+  //Log info
+  uint32_t src_ip = inet_addr("49.49.49.2");
+  uint8_t src_mac[6] = {0x32, 0x48, 0xde, 0xf6, 0xb8, 0x9e};
+  log_type_t type = STANDARD;
+  char* content = "[dns] received dns=S1 from mels@tsukoyomi.local";
+
+  int sockfd;
+  uint8_t buf[2048];
+  struct sockaddr_in targ;
+  socklen_t addrlen = sizeof(targ);
+
+  memset(buf, 0, sizeof(buf));
+
+  log_t sendto_log = create_log(src_ip, src_mac, type, content);
+  serialize_log(&sendto_log, buf, sizeof(buf));
+
+  sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+
+  targ.sin_family = AF_INET;
+  targ.sin_port = htons(PSC_PORT);
+  targ.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+
+  sendto(sockfd, buf, sizeof(buf), 0, (struct sockaddr*)&targ, sizeof(targ));
+
+  return 0;
+}
