@@ -4,8 +4,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <log.h>
+#include "log.h"
 
+/*****************************
+ * GLOBAL MACROS 
+ *****************************/
+
+#define FILE_MAXSIZE 4096
+#define FILE_CONF_PATH "/tmp/conf.psc" //< change this soon 
+
+/*****************************
+ * PUBLIC API
+ *****************************/
 
 /**
   * @brief Encodes log information to a file defined by the path in the configuration
