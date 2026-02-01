@@ -9,6 +9,7 @@
 #include "log.h"
 #include "log_serialize.h"
 #include "server_utils.h"
+#include "file_utils.h" //< implement this for files
 
 int main(void)
 {
