@@ -16,11 +16,6 @@
   */
 
 /**
- * MACROS
- */
-#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__) 
-
-/**
  * GLOBAL VARIABLES
  */
 int tests_failed = 0; //< necessary for testing library

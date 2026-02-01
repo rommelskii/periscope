@@ -22,6 +22,8 @@
         } \
     } while (0)
 
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__) 
+
 #endif // TESTING_UTILS_H
 
 
