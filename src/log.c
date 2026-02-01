@@ -63,3 +63,24 @@ log_t create_log(uint32_t src_ip, uint8_t* src_mac, log_type_t type, char* conte
 
   return log;
 }
+ 
+char* log_mac_to_string(uint8_t* pmac) 
+{
+  static char buf[18]; 
+  snprintf(buf, sizeof(buf), "%02x:%02x:%02x:%02x:%02x:%02x", 
+           pmac[0], pmac[1], pmac[2], pmac[3], pmac[4], pmac[5]);
+  return buf;
+}
+
+char* log_type_to_string(log_type_t type) 
+{
+  switch(type)
+  {
+    case (CRITICAL): return "CRITICAL"; break;
+    case (WARNING): return "WARNING"; break;
+    case (STANDARD): return "STANDARD"; break;
+    case (UNKNOWN): return "UNKNOWN"; break;
+    default: return NULL; break;
+  }
+}
+
