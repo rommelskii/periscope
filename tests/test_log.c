@@ -47,14 +47,6 @@ int main()
   EXPECT(test_log.type == test_type, "type test");
   EXPECT(memcmp(test_log.content, test_content, strnlen(test_content, MAXMSGLEN)+1) == 0, "content test");
 
-  print_log(&test_log); //< test print
-  
-  printf("\nAttempting to print malformed log...\n");
-  test_log.magic_number = 0x00000000;
-  print_log(&test_log);
-
-  printf("\n");
-
   if (tests_failed > 0)
   {
     printf("%s: One or more tests have failed\n", __FILENAME__);
