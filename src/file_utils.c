@@ -15,12 +15,9 @@
 
 int file_log_process(log_t* plog) 
 {
-  /**
-  * Configuration loading and log stream handling
-  */
   if (plog == NULL) 
   {
-    printf("File processing error: input log object cannot be null\n");
+    fprintf(stderr, "File processing error: input log object cannot be null\n");
     return -1;
   }
 
@@ -30,46 +27,56 @@ int file_log_process(log_t* plog)
   FILE* pconf = fopen(FILE_CONF_PATH, "r"); 
   if (pconf == NULL)
   {
-    printf("File processing error: cannot find the configuration file\n");
+    perror("File processing error: cannot find the configuration file");
     return -1;
   }
 
-  fgets(buf, sizeof(buf), pconf);
-  if (strnlen(buf, FILE_MAXSIZE) == 0) 
+  if (fgets(buf, sizeof(buf), pconf) == NULL) 
   {
-    printf("File processing error: empty configuration file\n");
+    fprintf(stderr, "File processing error: empty or unreadable configuration file\n");
+    fclose(pconf);
     return -1;
   }
+  fclose(pconf);
 
-  fclose(pconf); 
+  buf[strcspn(buf, "\r\n")] = 0;
 
-  FILE* plogf = fopen(buf, "a"); //< buffer should contain the config content (path)
+  FILE* plogf = fopen(buf, "a");
   if (plogf == NULL)
   {
-    printf("File processing error: cannot open logging path specified in configuration file\n");
+    fprintf(stderr, "File processing error: cannot open logging path [%s]\n", buf);
     return -1;
   }
 
-  /**
-    * Begin stream input
-    */
+  char ip_str[INET_ADDRSTRLEN];
+  const char* type_str;
+  char* mac_str;
 
-  char* ip;
-  char* mac;
-  char* type;
-  char* content;
+  if (inet_ntop(AF_INET, &plog->src_ip, ip_str, sizeof(ip_str)) == NULL) 
+  {
+    strncpy(ip_str, "unknown", sizeof(ip_str));
+  }
 
-  inet_ntop(AF_INET, &plog->src_ip, ip, INET_ADDRSTRLEN);
-  mac = log_mac_to_string(plog->src_mac); 
-  type = log_type_to_string(plog->type);
-  memcpy(content, plog->content, MAXMSGLEN); 
+  mac_str = log_mac_to_string(plog->src_mac); 
+  type_str = log_type_to_string(plog->type);
 
   char line_content[FILE_MAXSIZE];
-  snprintf(line_content, sizeof(line_content), "src=%s mac=%s type=%s content='%s'", ip, mac, type, content);
 
-  if (fputs(line_content, plogf) < 0) 
+  int written = snprintf(line_content, sizeof(line_content), 
+                         "src=%s mac=%s type=%s content='%s'\n", 
+                         ip_str, mac_str, type_str, plog->content);
+
+  if (written >= (int)sizeof(line_content)) 
   {
-    printf("File writing error: failed to log\n");
+    fprintf(stderr, "File writing warning: log entry was truncated\n");
+  }
+
+  if (fputs(line_content, plogf) == EOF) 
+  {
+    perror("File writing error: failed to log to file");
+    fclose(plogf);
+    // If your mac_str was malloc'd, call free(mac_str) here!
+    return -1;
   }
 
   fclose(plogf);
