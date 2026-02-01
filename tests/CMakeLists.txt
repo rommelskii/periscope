@@ -1,4 +1,7 @@
-set(TEST_SRC_LIST test_log.c test_log_serialize.c test_server.c)
+set(TEST_SRC_LIST test_log.c 
+                  test_log_fmt.c
+                  test_log_serialize.c 
+                  test_server.c)
 
 include_directories(include)
 
