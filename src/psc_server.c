@@ -9,7 +9,7 @@
 #include "log.h"
 #include "log_serialize.h"
 #include "server_utils.h"
-#include "file_utils.h" //< implement this for files
+#include "file_utils.h" 
 
 int main(void)
 {
@@ -51,7 +51,7 @@ int main(void)
     * Begin file handling stuff here
     */
     printf("[RECEIVED] %s\n", inet_ntop(AF_INET, &cli.sin_addr.s_addr, ip, INET_ADDRSTRLEN));
-    if (file_log_process(&recv_log) < 0) //< implement this
+    if (file_log_process(&recv_log) < 0) 
     {
       printf("File logging error: failed to process last log packet\n");
       return 1;

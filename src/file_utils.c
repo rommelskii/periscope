@@ -1,5 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+#include <unistd.h>
 
 #include "log.h"
 #include "file_utils.h"
@@ -17,10 +24,10 @@ int file_log_process(log_t* plog)
     return -1;
   }
 
-  char buf[FILE_MAXSIZE]; //< (implement this) buffer for file contents
+  char buf[FILE_MAXSIZE]; 
   memset(buf, 0, sizeof(buf));
 
-  FILE* pconf = fopen(FILE_CONF_PATH, "r"); //< (implement this) get the contents of the config file
+  FILE* pconf = fopen(FILE_CONF_PATH, "r"); 
   if (pconf == NULL)
   {
     printf("File processing error: cannot find the configuration file\n");
@@ -34,7 +41,7 @@ int file_log_process(log_t* plog)
     return -1;
   }
 
-  close(pconf); 
+  fclose(pconf); 
 
   FILE* plogf = fopen(buf, "a"); //< buffer should contain the config content (path)
   if (plogf == NULL)
@@ -52,10 +59,9 @@ int file_log_process(log_t* plog)
   char* type;
   char* content;
 
-
-  inet_ntop(AF_INET, plog->src_ip, ip, INET_ADDRSTRLEN);
-  mac = log_mac_to_string(plog->src_mac); //< implement this
-  type = log_type_to_string(plog->type); //< implement this
+  inet_ntop(AF_INET, &plog->src_ip, ip, INET_ADDRSTRLEN);
+  mac = log_mac_to_string(plog->src_mac); 
+  type = log_type_to_string(plog->type);
   memcpy(content, plog->content, MAXMSGLEN); 
 
   char line_content[FILE_MAXSIZE];
@@ -66,7 +72,7 @@ int file_log_process(log_t* plog)
     printf("File writing error: failed to log\n");
   }
 
-  close(plogf);
+  fclose(plogf);
 
   return 0;
 }
