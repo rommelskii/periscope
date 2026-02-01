@@ -26,6 +26,7 @@ typedef enum log_type
   CRITICAL,
   WARNING,
   STANDARD,
+  UNKNOWN
 } log_type_t;
 
 
