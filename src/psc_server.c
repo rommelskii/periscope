@@ -35,18 +35,22 @@ int main(void)
 
   printf("Running Periscope server at port %d\n", PSC_PORT);
 
-  int bytes_received = recvfrom(sockfd, buf, sizeof(buf), 0, (struct sockaddr*)&cli, &addrlen);
-  if (bytes_received < 0)
+  for (;;) 
   {
-    perror("recvfrom failed");
-    return -1;
-  } 
+    int bytes_received = recvfrom(sockfd, buf, sizeof(buf), 0, (struct sockaddr*)&cli, &addrlen);
+    if (bytes_received < 0)
+    {
+      perror("recvfrom failed");
+      return -1;
+    } 
 
-  deserialize_log(&recv_log, buf);
+    deserialize_log(&recv_log, buf);
 
-  /**
+    /**
     * Begin file handling stuff here
     */
-  printf("[RECEIVED] %s\n", inet_ntop(AF_INET, &cli.sin_addr.s_addr, ip, INET_ADDRSTRLEN));
+    printf("[RECEIVED] %s\n", inet_ntop(AF_INET, &cli.sin_addr.s_addr, ip, INET_ADDRSTRLEN));
+  }
+
   return 0;
 }
