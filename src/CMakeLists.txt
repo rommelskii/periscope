@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 set(SRC_LIST psc_server.c psc_client.c)
-set(LIB_LIST log.c log_serialize.c server_utils.c)
+set(LIB_LIST log.c log_serialize.c server_utils.c file_utils.c)
 
 add_library(periscope_core STATIC ${LIB_LIST})
 
