@@ -2,6 +2,7 @@
 #define LOG_SERIALIZE_H_
 
 #include "log.h"
+#include <cstdint.h>
 
 /**
   * @brief Serializes a log to a byte buffer
