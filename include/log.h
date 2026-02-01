@@ -60,4 +60,18 @@ void print_log (const log_t* plog);
   */
 log_t create_log(uint32_t src_ip, uint8_t* src_mac, log_type_t type, char* content);
 
+/**
+  * @brief Encodes a MAC address byte array to a null-terminated string
+  * @param pmac MAC address byte array of log
+  * @return Null-terminated MAC address string
+  */
+char* log_mac_to_string(uint8_t* pmac);
+
+/**
+  * @brief Encodes a log type to a null-terminated string
+  * @param type Log type enum
+  * @return Null-terminated log type string
+  */
+char* log_type_to_string(log_type_t type);
+
 #endif //LOG_H_
