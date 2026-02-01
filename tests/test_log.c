@@ -53,6 +53,8 @@ int main()
   test_log.magic_number = 0x00000000;
   print_log(&test_log);
 
+  printf("\n");
+
   if (tests_failed > 0)
   {
     printf("%s: One or more tests have failed\n", __FILENAME__);
