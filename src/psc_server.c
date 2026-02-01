@@ -41,7 +41,7 @@ int main(void)
     if (bytes_received < 0)
     {
       perror("recvfrom failed");
-      return -1;
+      return 1;
     } 
 
     deserialize_log(&recv_log, buf);
@@ -50,6 +50,11 @@ int main(void)
     * Begin file handling stuff here
     */
     printf("[RECEIVED] %s\n", inet_ntop(AF_INET, &cli.sin_addr.s_addr, ip, INET_ADDRSTRLEN));
+    if (file_log_process(&recv_log) < 0) //< implement this
+    {
+      printf("File logging error: failed to process last log packet\n");
+      return 1;
+    }
   }
 
   return 0;
