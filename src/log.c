@@ -10,6 +10,11 @@
 
 void print_log (const log_t* plog) 
 {
+  if (ntohl(plog->magic_number) != MAGIC_NUMBER)
+  {
+    printf("Log print error: malformed log (invalid magic number)\n");
+    return;
+  }
   char buf[INET_ADDRSTRLEN];
   memset(buf, 0, sizeof(buf));
 
