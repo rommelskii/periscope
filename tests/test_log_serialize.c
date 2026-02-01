@@ -30,7 +30,7 @@ int main()
   uint8_t buf[2048];
   memset(buf, 0, sizeof(buf));
 
-  uint32_t test_magic_number = MAGIC_NUMBER; //< only for counter checking
+  uint32_t test_magic_number = htonl(MAGIC_NUMBER); //< only for counter checking
   uint32_t test_src_ip = htonl(INADDR_LOOPBACK);
   uint8_t test_src_mac[6] = {0xDE, 0xEA, 0xDD, 0xBE, 0xEE, 0xFF};
   log_type_t test_type = STANDARD;
