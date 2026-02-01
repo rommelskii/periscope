@@ -16,12 +16,14 @@ int main(void)
 
   int sockfd;
   uint8_t buf[2048];
+  char ip[INET_ADDRSTRLEN];
   struct sockaddr_in serv, cli;
   socklen_t addrlen = sizeof(cli);
 
   log_t recv_log = {0};
 
   memset(buf, 0, sizeof(buf));
+  memset(ip, 0, sizeof(ip));
 
   sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
@@ -40,10 +42,11 @@ int main(void)
     return -1;
   } 
 
-  printf("Received %d bytes\n\n", bytes_received);
-
   deserialize_log(&recv_log, buf);
 
-  print_log(&recv_log);
+  /**
+    * Begin file handling stuff here
+    */
+  printf("[RECEIVED] %s\n", inet_ntop(AF_INET, &cli.sin_addr.s_addr, ip, INET_ADDRSTRLEN));
   return 0;
 }
