@@ -6,8 +6,12 @@ build/
 build*/
 out/
 
+# Ignore my scratch directory
+scratch/
+
 # Ignore executables 
 bin/
+main
 
 # If someone runs cmake in the root (try to avoid this!)
 CMakeCache.txt
