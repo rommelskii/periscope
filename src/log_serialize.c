@@ -1,3 +1,10 @@
+/******************************************************
+ * (C) Rommel Ronduen (rommel.ronduen2244@gmail.com)
+ *
+ * file: log_serialize.c
+ * Contains the implementations of the serialization methods
+******************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,6 +21,9 @@ void serialize_log(log_t* plog, uint8_t* buf, size_t maxsize)
   return;
 }
 
+/**
+  * @note This function does not validate the MAC address.
+  */
 void deserialize_log(log_t* plog, uint8_t* buf) 
 {
   //Check first if magic number can be found
@@ -50,7 +60,6 @@ void deserialize_log(log_t* plog, uint8_t* buf)
     printf("Deserialization error: empty content field\n");
     return; 
   }
-  
 
   // Finally, set the plog attributes to validated values
   plog->magic_number = temp_magic_number;

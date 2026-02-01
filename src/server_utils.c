@@ -1,3 +1,10 @@
+/******************************************************
+ * (C) Rommel Ronduen (rommel.ronduen2244@gmail.com)
+ *
+ * file: server_utils.c
+ * Implementation of the server setup and runtime 
+******************************************************/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

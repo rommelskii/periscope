@@ -1,3 +1,10 @@
+/******************************************************
+ * (C) Rommel Ronduen (rommel.ronduen2244@gmail.com)
+ *
+ * file: psc_client.c
+ * Performs a client request to a Periscope server
+******************************************************/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -12,7 +19,7 @@
 
 int main(void)
 {
-  const int PSC_PORT = 7123; //< just for testing
+  const int PSC_PORT = 7123; //< just for testing; modify this soon or put into a header
   
   //Log info
   uint32_t src_ip = inet_addr("49.49.49.2");

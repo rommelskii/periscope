@@ -1,3 +1,10 @@
+/******************************************************
+ * (C) Rommel Ronduen (rommel.ronduen2244@gmail.com)
+ *
+ * file: file_utils.c
+ * Implementation of file handler for logs
+******************************************************/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

@@ -1,3 +1,11 @@
+
+/******************************************************
+ * (C) Rommel Ronduen (rommel.ronduen2244@gmail.com)
+ *
+ * file: log.c
+ * Contains log data type and method implementations
+******************************************************/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

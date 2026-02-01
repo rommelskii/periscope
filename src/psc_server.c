@@ -1,3 +1,10 @@
+/******************************************************
+ * (C) Rommel Ronduen (rommel.ronduen2244@gmail.com)
+ *
+ * file: psc_server.c
+ * Runs a Periscope server.
+******************************************************/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -13,6 +20,9 @@
 
 int main(void)
 {
+  /**
+   * Server setup things
+   */
   const int PSC_PORT = 7123; //< just for testing
 
   int sockfd;
@@ -36,9 +46,11 @@ int main(void)
 
   printf("Running Periscope server at port %d\n", PSC_PORT);
 
+  /**
+   * Configuration file setup 
+   */
   char cbuf[FILE_MAXSIZE]; 
   memset(cbuf, 0, sizeof(cbuf));
-
   FILE* pconf = fopen(FILE_CONF_PATH, "r");
   if (pconf == NULL)
   {
@@ -55,6 +67,10 @@ int main(void)
   printf("Configuration file loaded from %s\n", FILE_CONF_PATH);
   printf("Logging file loaded from %s\n", cbuf);
   
+
+  /**
+   * Server event loop
+   */
   for (;;) 
   {
     int bytes_received = recvfrom(sockfd, buf, sizeof(buf), 0, (struct sockaddr*)&cli, &addrlen);
