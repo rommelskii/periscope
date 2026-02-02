@@ -40,9 +40,10 @@ int main()
   /**
    * TEST PROPER
    */
+  
   printf("----LOG FORMATTER TESTS----\n");
-  EXPECT(memcmp(result_mac, actual_mac, MACADDRLEN) == 0, "MAC formatter test");
-  EXPECT(result_type == actual_type, "Log type formatter test");
+  EXPECT(strncmp(result_mac, actual_mac, MACADDRLEN) == 0, "MAC formatter test");
+  EXPECT(strcmp(result_type, actual_type) == 0, "Log type formatter test");
 
   if (tests_failed > 0)
   {
