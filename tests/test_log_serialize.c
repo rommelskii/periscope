@@ -52,7 +52,7 @@ int main()
   EXPECT(after.src_ip == test_src_ip, "serialized source ip test");
   EXPECT(strncmp((const char*)after.src_mac, (const char*)test_src_mac, MACADDRLEN) == 0, "serialized mac test");
   EXPECT(after.type == test_type, "serialized type test");
-  EXPECT(strncmp((const char*)after.content, test_content, strnlen(test_content, MAXMSGLEN)) == 0, "serialized content test");
+  EXPECT(strncmp((const char*)after.content, test_content, strnlen(test_content, MAXMSGLEN)+1) == 0, "serialized content test");
 
   if (tests_failed > 0)
   {
