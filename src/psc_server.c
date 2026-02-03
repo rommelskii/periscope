@@ -23,7 +23,6 @@ int main(void)
   /**
    * Server setup things
    */
-  const int PSC_PORT = 7123; //< just for testing
 
   int sockfd;
   uint8_t buf[2048];
