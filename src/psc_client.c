@@ -71,9 +71,9 @@ int main(int argc, char** argv)
 
 void cli_arg_proc(char* ip, char* type, char* content, char** argv)
 {
-  memset(ip, 0, sizeof(ip));
-  memset(type, 0, sizeof(type));
-  memset(content, 0, sizeof(content));
+  memset(ip, 0, INET_ADDRSTRLEN+1);
+  memset(type, 0, MAXTYPELEN+1);
+  memset(content, 0, CLI_ARG_MAXSIZE);
   memcpy(ip, argv[1], INET_ADDRSTRLEN+1);
   memcpy(type, argv[2], MAXTYPELEN+1);
   memcpy(content, argv[3], CLI_ARG_MAXSIZE);
