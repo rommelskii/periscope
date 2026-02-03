@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <time.h>
 
 /****************************************
  * Constants
@@ -38,6 +39,7 @@ typedef struct
   uint8_t     src_mac[MACADDRLEN];
   log_type_t  type; 
   char        content[MAXMSGLEN];
+  time_t      event_time;
 } log_t;
 #pragma pack(pop)
 
@@ -57,8 +59,9 @@ void print_log (const log_t* plog);
   * @param src_mac Source MAC address byte array
   * @param type Log type enum
   * @param content Log content string 
+  * @param event_time Time of event
   */
-log_t create_log(uint32_t src_ip, uint8_t* src_mac, log_type_t type, char* content);
+log_t create_log(uint32_t src_ip, uint8_t* src_mac, log_type_t type, char* content, time_t event_time);
 
 /**
   * @brief Encodes a MAC address byte array to a null-terminated string
