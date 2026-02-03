@@ -4,6 +4,7 @@
 
 #include <assert.h>
 
+#include <time.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -35,11 +36,13 @@ int main()
   uint8_t test_src_mac[6] = {0xDE, 0xEA, 0xDD, 0xBE, 0xEE, 0xFF};
   log_type_t test_type = STANDARD;
   char* test_content = "USB detected at /dev/sdb0";
+  time_t test_time;
+  time(&test_time);
 
   /**
    * TEST INITIALIZATION 
    */
-  log_t before = create_log(test_src_ip, test_src_mac, test_type, test_content);
+  log_t before = create_log(test_src_ip, test_src_mac, test_type, test_content, test_time);
   log_t after = {0};
   
   serialize_log(&before, buf, sizeof(buf));
@@ -53,6 +56,7 @@ int main()
   EXPECT(strncmp((const char*)after.src_mac, (const char*)test_src_mac, MACADDRLEN) == 0, "serialized mac test");
   EXPECT(after.type == test_type, "serialized type test");
   EXPECT(strncmp((const char*)after.content, test_content, strnlen(test_content, MAXMSGLEN+1)) == 0, "serialized content test");
+  EXPECT(after.event_time == test_time, "serialized time test");
 
   if (tests_failed > 0)
   {

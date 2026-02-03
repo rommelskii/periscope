@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include <time.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -31,11 +32,13 @@ int main()
   uint8_t test_src_mac[6] = {0xDE, 0xEA, 0xDD, 0xBE, 0xEE, 0xFF};
   log_type_t test_type = STANDARD;
   char* test_content = "USB detected at /dev/sdb0";
+  time_t test_time;
+  time(&test_time);
 
   /**
    * TEST INITIALIZATION 
    */
-  log_t test_log = create_log(test_src_ip, test_src_mac, test_type, test_content);
+  log_t test_log = create_log(test_src_ip, test_src_mac, test_type, test_content, test_time);
 
   /**
    * TEST PROPER
@@ -46,6 +49,7 @@ int main()
   EXPECT(memcmp(test_log.src_mac, test_src_mac, MACADDRLEN) == 0, "source mac test");
   EXPECT(test_log.type == test_type, "type test");
   EXPECT(memcmp(test_log.content, test_content, strnlen(test_content, MAXMSGLEN)+1) == 0, "content test");
+  EXPECT(test_log.event_time == test_time, "time test");
 
   if (tests_failed > 0)
   {
