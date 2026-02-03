@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <time.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -90,7 +91,9 @@ int main(int argc, char** argv)
     /**
     * Begin file handling stuff here
     */
-    printf("[RECEIVED] %s content='%s'\n", inet_ntop(AF_INET, &cli.sin_addr.s_addr, ip, INET_ADDRSTRLEN), recv_log.content);
+    char *time_str = ctime(&recv_log.event_time);
+    time_str[strlen(time_str) - 1] = '\0'; // Replace \n with \0
+    printf("[RECEIVED] (%s) src_ip=%s content='%s'\n", time_str, inet_ntop(AF_INET, &cli.sin_addr.s_addr, ip, INET_ADDRSTRLEN), recv_log.content);
     if (file_log_process(&recv_log) < 0) 
     {
       printf("File logging error: failed to process last log packet\n");

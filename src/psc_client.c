@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <time.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -53,9 +54,12 @@ int main(int argc, char** argv)
   struct sockaddr_in targ;
   socklen_t addrlen = sizeof(targ);
 
+  time_t current_time;
+  time(&current_time);
+
   memset(buf, 0, sizeof(buf));
 
-  log_t sendto_log = create_log(src_ip, src_mac, type, content);
+  log_t sendto_log = create_log(src_ip, src_mac, type, content, current_time);
   serialize_log(&sendto_log, buf, sizeof(buf));
 
   sockfd = socket(AF_INET, SOCK_DGRAM, 0);
