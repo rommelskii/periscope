@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <time.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -26,6 +27,13 @@ void print_log (const log_t* plog)
   char buf[INET_ADDRSTRLEN];
   memset(buf, 0, sizeof(buf));
 
+  if (plog->event_time == 0)
+  {
+    printf("Log print error: malformed log (incorrect time)\n");
+    return;
+  }
+
+  printf("[%s]\n", ctime(&plog->event_time));
   printf("IP: %s", inet_ntop(AF_INET, &(plog->src_ip), buf, INET_ADDRSTRLEN));
   printf("\n");
 
@@ -50,7 +58,7 @@ void print_log (const log_t* plog)
   return;
 }
 
-log_t create_log(uint32_t src_ip, uint8_t* src_mac, log_type_t type, char* content)
+log_t create_log(uint32_t src_ip, uint8_t* src_mac, log_type_t type, char* content, time_t event_time)
 {
   if (src_ip == htonl(INADDR_NONE)) 
   {
@@ -60,6 +68,10 @@ log_t create_log(uint32_t src_ip, uint8_t* src_mac, log_type_t type, char* conte
   {
     printf("Log warning: empty content payload received\n");
   }
+  if (event_time == 0) 
+  {
+    printf("Log warning: unset time received\n");
+  }
 
   log_t log = {0};
 
@@ -68,6 +80,7 @@ log_t create_log(uint32_t src_ip, uint8_t* src_mac, log_type_t type, char* conte
   log.type = type;
   memcpy(log.src_mac, src_mac, MACADDRLEN);
   memcpy(log.content, content, strlen(content)+1);
+  log.event_time = event_time;
 
   return log;
 }

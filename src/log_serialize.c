@@ -55,6 +55,20 @@ int deserialize_log(log_t* plog, uint8_t* buf)
   memset(temp_content, 0, sizeof(temp_content));
   memcpy(temp_content, &buf[8+MACADDRLEN+sizeof(log_type_t)], MAXMSGLEN);
 
+  //Validate time
+  //time_t temp = (uint64_t)buf[8+MACADDRLEN+sizeof(log_type_t) + 1] << 56 | 
+  time_t temp_time = 0;
+  for (size_t i=0; i<8; ++i)
+  {
+    temp_time |= (uint64_t)buf[8+MACADDRLEN+sizeof(log_type_t) + MAXMSGLEN + i ] << (i * 8);
+  }
+
+  if (temp_time == 0) 
+  {
+    printf("Deserialization error: time is unset\n");
+    return -1;
+  }
+
   if (strnlen(temp_content, MAXMSGLEN) == 0) 
   {
     printf("Deserialization error: empty content field\n");
@@ -67,6 +81,7 @@ int deserialize_log(log_t* plog, uint8_t* buf)
   plog->type = temp_type;
   memcpy(plog->src_mac, &buf[8], MACADDRLEN);
   memcpy(plog->content, &buf[8 + MACADDRLEN + sizeof(log_type_t)], MAXMSGLEN);
+  plog->event_time = temp_time;
 
   return 0;
 }
