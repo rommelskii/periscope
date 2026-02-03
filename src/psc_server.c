@@ -80,7 +80,12 @@ int main(int argc, char** argv)
       return 1;
     } 
 
-    deserialize_log(&recv_log, buf);
+    if (deserialize_log(&recv_log, buf) < 0) 
+    {
+      fprintf(stderr, "deserialize_log error: exception occured\n");
+      printf("[FAILURE] deserialization error from %s\n", inet_ntop(AF_INET, &cli.sin_addr.s_addr, ip, INET_ADDRSTRLEN));
+      continue; 
+    }
 
     /**
     * Begin file handling stuff here
