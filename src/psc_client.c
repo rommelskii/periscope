@@ -35,18 +35,18 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  char arg_ip[CLI_ARG_MAXSIZE];
-  char arg_type[CLI_ARG_MAXSIZE];
+
+  char arg_ip[INET_ADDRSTRLEN+1];
+  char arg_type[MAXTYPELEN+1];
   char arg_content[CLI_ARG_MAXSIZE];
 
   cli_arg_proc(arg_ip, arg_type, arg_content, argv);
 
-  
   // Replace these with actual information
-  uint32_t src_ip = inet_addr("arg_ip");
+  uint32_t src_ip = inet_addr(arg_ip);
   uint8_t src_mac[6] = {0x32, 0x48, 0xde, 0xf6, 0xb8, 0x9e};
-  log_type_t type = string_to_log_type(arg_type);
-  char* content = "[dns] received dns=S1 from mels@tsukoyomi.local";
+  log_type_t type = string_to_log_type(arg_type); 
+  char* content = arg_content;
 
   int sockfd;
   uint8_t buf[2048];
@@ -71,12 +71,11 @@ int main(int argc, char** argv)
 
 void cli_arg_proc(char* ip, char* type, char* content, char** argv)
 {
-  memset(ip, 0, CLI_ARG_MAXSIZE);
-  memset(type, 0, CLI_ARG_MAXSIZE);
-  memset(content, 0, CLI_ARG_MAXSIZE);
-  memcpy(ip, argv[1], sizeof(ip)+1);
-  memcpy(type, argv[2], sizeof(type)+1);
-  memcpy(content, argv[3], sizeof(content)+1);
-
+  memset(ip, 0, sizeof(ip));
+  memset(type, 0, sizeof(type));
+  memset(content, 0, sizeof(content));
+  memcpy(ip, argv[1], INET_ADDRSTRLEN+1);
+  memcpy(type, argv[2], MAXTYPELEN+1);
+  memcpy(content, argv[3], CLI_ARG_MAXSIZE);
   return;
 }
