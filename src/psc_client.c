@@ -18,6 +18,9 @@
 #include "server_utils.h"
 
 #define CLI_MSG_USG "Usage: ./psc_client (logging ip) (logging level) (content)\n"
+#define CLI_ARG_MAXSIZE 512
+
+void cli_arg_proc(char* ip, char* level, char* content, char** argv);
 
 int main(int argc, char** argv)
 {
@@ -32,9 +35,13 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  //cli_arg_proc(argv[1], argv[2], argv[3]);
+  char arg_ip[CLI_ARG_MAXSIZE];
+  char arg_level[CLI_ARG_MAXSIZE];
+  char arg_content[CLI_ARG_MAXSIZE];
 
+  cli_arg_proc(arg_ip, arg_level, arg_content, argv);
 
+  
   // Replace these with actual information
   uint32_t src_ip = inet_addr("49.49.49.2");
   uint8_t src_mac[6] = {0x32, 0x48, 0xde, 0xf6, 0xb8, 0x9e};
@@ -60,4 +67,16 @@ int main(int argc, char** argv)
   sendto(sockfd, buf, sizeof(buf), 0, (struct sockaddr*)&targ, sizeof(targ));
 
   return 0;
+}
+
+void cli_arg_proc(char* ip, char* level, char* content, char** argv)
+{
+  memset(ip, 0, CLI_ARG_MAXSIZE);
+  memset(level, 0, CLI_ARG_MAXSIZE);
+  memset(content, 0, CLI_ARG_MAXSIZE);
+  memcpy(ip, argv[1], sizeof(ip)+1);
+  memcpy(level, argv[2], sizeof(level)+1);
+  memcpy(content, argv[3], sizeof(content)+1);
+
+  return;
 }
