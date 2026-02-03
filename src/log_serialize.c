@@ -24,14 +24,14 @@ void serialize_log(log_t* plog, uint8_t* buf, size_t maxsize)
 /**
   * @note This function does not validate the MAC address.
   */
-void deserialize_log(log_t* plog, uint8_t* buf) 
+int deserialize_log(log_t* plog, uint8_t* buf) 
 {
   //Check first if magic number can be found
   uint32_t temp_magic_number = (uint32_t)buf[0] << 24 | (uint32_t)buf[1] << 16 | (uint32_t)buf[2] << 8 | (uint32_t)buf[3];
   if (temp_magic_number != MAGIC_NUMBER) 
   {
     printf("Deserialization error: malformed log (incorrect magic cookie)\n");
-    return;
+    return -1;
   }
 
   //Validate IP
@@ -39,7 +39,7 @@ void deserialize_log(log_t* plog, uint8_t* buf)
   if(temp_ip == INADDR_NONE) 
   {
     printf("Deserialization error: invalid IP\n");
-    return;
+    return -1;
   }
 
   //Validate type
@@ -47,7 +47,7 @@ void deserialize_log(log_t* plog, uint8_t* buf)
   if (temp_type == UNKNOWN) 
   {
     printf("Deserialization error: unknown log type\n");
-    return;
+    return -1;
   }
 
   //Validate content 
@@ -58,7 +58,7 @@ void deserialize_log(log_t* plog, uint8_t* buf)
   if (strnlen(temp_content, MAXMSGLEN) == 0) 
   {
     printf("Deserialization error: empty content field\n");
-    return; 
+    return -1; 
   }
 
   // Finally, set the plog attributes to validated values
@@ -68,5 +68,5 @@ void deserialize_log(log_t* plog, uint8_t* buf)
   memcpy(plog->src_mac, &buf[8], MACADDRLEN);
   memcpy(plog->content, &buf[8 + MACADDRLEN + sizeof(log_type_t)], MAXMSGLEN);
 
-  return;
+  return 0;
 }
