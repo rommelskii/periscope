@@ -94,7 +94,7 @@ char* log_type_to_string(log_type_t type)
 
 log_type_t string_to_log_type(const char* s_type)
 {
-  if (s_type == NULL || strnlen(s_type, ) == 0) 
+  if (s_type == NULL || strnlen(s_type, MAXTYPELEN) == 0) 
   {
     fprintf(stderr, "string_to_log_type error: s_type cannot be null or empty\n");
     return UNKNOWN;
