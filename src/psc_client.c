@@ -19,7 +19,6 @@
 
 int main(void)
 {
-  const int PSC_PORT = 7123; //< just for testing; modify this soon or put into a header
   
   //Log info
   uint32_t src_ip = inet_addr("49.49.49.2");
