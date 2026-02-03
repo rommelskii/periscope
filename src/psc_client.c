@@ -17,10 +17,25 @@
 #include "log_serialize.h"
 #include "server_utils.h"
 
-int main(void)
+#define CLI_MSG_USG "Usage: ./psc_client (logging ip) (logging level) (content)\n"
+
+int main(int argc, char** argv)
 {
-  
-  //Log info
+  /**
+  * Usage: ./psc_client (logging ip) (logging level) (content) 
+  */ 
+
+  if (argc != 4) 
+  {
+    fprintf(stderr, "argument error: incorrect arguments\n");
+    printf(CLI_MSG_USG);
+    return 1;
+  }
+
+  //cli_arg_proc(argv[1], argv[2], argv[3]);
+
+
+  // Replace these with actual information
   uint32_t src_ip = inet_addr("49.49.49.2");
   uint8_t src_mac[6] = {0x32, 0x48, 0xde, 0xf6, 0xb8, 0x9e};
   log_type_t type = STANDARD;

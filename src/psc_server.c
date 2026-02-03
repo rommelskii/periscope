@@ -18,11 +18,19 @@
 #include "server_utils.h"
 #include "file_utils.h" 
 
-int main(void)
+int main(int argc, char** argv)
 {
   /**
    * Server setup things
+   * 
    */
+
+  if (argc < 2) 
+  {
+    fprintf(stderr, "command error: missing argument\n");
+    return 1;
+  }
+  
 
   int sockfd;
   uint8_t buf[2048];
