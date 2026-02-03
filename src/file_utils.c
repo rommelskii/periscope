@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <time.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -55,6 +56,8 @@ int file_log_process(log_t* plog)
     return -1;
   }
 
+  char *time_str = ctime(&plog->event_time);
+  time_str[strlen(time_str) - 1] = '\0'; // Replace \n with \0
   char ip_str[INET_ADDRSTRLEN];
   const char* type_str;
   char* mac_str;
@@ -70,8 +73,8 @@ int file_log_process(log_t* plog)
   char line_content[FILE_MAXSIZE];
 
   int written = snprintf(line_content, sizeof(line_content), 
-                         "src=%s mac=%s type=%s content='%s'\n", 
-                         ip_str, mac_str, type_str, plog->content);
+                         "[%s] src=%s mac=%s type=%s content='%s'\n", 
+                         time_str, ip_str, mac_str, type_str, plog->content);
 
   if (written >= (int)sizeof(line_content)) 
   {
@@ -82,7 +85,7 @@ int file_log_process(log_t* plog)
   {
     perror("File writing error: failed to log to file");
     fclose(plogf);
-    // If your mac_str was malloc'd, call free(mac_str) here!
+
     return -1;
   }
 
