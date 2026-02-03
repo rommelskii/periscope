@@ -92,3 +92,30 @@ char* log_type_to_string(log_type_t type)
   }
 }
 
+log_type_t string_to_log_type(const char* s_type)
+{
+  if (s_type == NULL || strnlen(s_type, ) == 0) 
+  {
+    fprintf(stderr, "string_to_log_type error: s_type cannot be null or empty\n");
+    return UNKNOWN;
+  }
+
+  int is_critical = strncmp("CRITICAL", s_type, MAXTYPELEN);
+  int is_standard = strncmp("STANDARD", s_type, MAXTYPELEN);
+  int is_warning = strncmp("WARNING", s_type, MAXTYPELEN);
+
+  if (is_critical == 0)
+  {
+    return CRITICAL; 
+  }
+  if (is_standard == 0)
+  {
+    return STANDARD; 
+  }
+  if (is_warning == 0)
+  {
+    return WARNING; 
+  }
+
+  return UNKNOWN;
+}

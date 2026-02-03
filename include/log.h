@@ -16,7 +16,7 @@
 #define MACADDRLEN 6
 #define MAXMSGLEN 256 
 #define MAGIC_NUMBER 0xDEADB33F
-
+#define MAXTYPELEN 8 //< longest type string is CRITICAL/STANDARD 
 
 /****************************************
   * Type Definitions
@@ -73,5 +73,13 @@ char* log_mac_to_string(uint8_t* pmac);
   * @return Null-terminated log type string
   */
 char* log_type_to_string(log_type_t type);
+
+/**
+  * @brief Builds a string out of a log type
+  * @param s_type Type string to be encoded to type
+  * @return Log type according to the string
+  */
+log_type_t string_to_log_type(const char* s_type);
+
 
 #endif //LOG_H_

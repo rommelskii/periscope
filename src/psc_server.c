@@ -25,13 +25,6 @@ int main(int argc, char** argv)
    * 
    */
 
-  if (argc < 2) 
-  {
-    fprintf(stderr, "command error: missing argument\n");
-    return 1;
-  }
-  
-
   int sockfd;
   uint8_t buf[2048];
   char ip[INET_ADDRSTRLEN];
