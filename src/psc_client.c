@@ -17,15 +17,15 @@
 #include "log_serialize.h"
 #include "server_utils.h"
 
-#define CLI_MSG_USG "Usage: ./psc_client (logging ip) (logging level) (content)\n"
+#define CLI_MSG_USG "Usage: ./psc_client (logging ip) (logging type) (content)\n"
 #define CLI_ARG_MAXSIZE 512
 
-void cli_arg_proc(char* ip, char* level, char* content, char** argv);
+void cli_arg_proc(char* ip, char* type, char* content, char** argv);
 
 int main(int argc, char** argv)
 {
   /**
-  * Usage: ./psc_client (logging ip) (logging level) (content) 
+  * Usage: ./psc_client (logging ip) (logging type) (content) 
   */ 
 
   if (argc != 4) 
@@ -36,16 +36,16 @@ int main(int argc, char** argv)
   }
 
   char arg_ip[CLI_ARG_MAXSIZE];
-  char arg_level[CLI_ARG_MAXSIZE];
+  char arg_type[CLI_ARG_MAXSIZE];
   char arg_content[CLI_ARG_MAXSIZE];
 
-  cli_arg_proc(arg_ip, arg_level, arg_content, argv);
+  cli_arg_proc(arg_ip, arg_type, arg_content, argv);
 
   
   // Replace these with actual information
-  uint32_t src_ip = inet_addr("49.49.49.2");
+  uint32_t src_ip = inet_addr("arg_ip");
   uint8_t src_mac[6] = {0x32, 0x48, 0xde, 0xf6, 0xb8, 0x9e};
-  log_type_t type = STANDARD;
+  log_type_t type = string_to_log_type(arg_type);
   char* content = "[dns] received dns=S1 from mels@tsukoyomi.local";
 
   int sockfd;
@@ -69,13 +69,13 @@ int main(int argc, char** argv)
   return 0;
 }
 
-void cli_arg_proc(char* ip, char* level, char* content, char** argv)
+void cli_arg_proc(char* ip, char* type, char* content, char** argv)
 {
   memset(ip, 0, CLI_ARG_MAXSIZE);
-  memset(level, 0, CLI_ARG_MAXSIZE);
+  memset(type, 0, CLI_ARG_MAXSIZE);
   memset(content, 0, CLI_ARG_MAXSIZE);
   memcpy(ip, argv[1], sizeof(ip)+1);
-  memcpy(level, argv[2], sizeof(level)+1);
+  memcpy(type, argv[2], sizeof(type)+1);
   memcpy(content, argv[3], sizeof(content)+1);
 
   return;
